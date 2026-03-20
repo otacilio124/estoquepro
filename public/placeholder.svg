@@ -1,0 +1,7 @@
+<svg width="200" height="200" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="200" height="200" rx="24" fill="#0f172a"/>
+  <rect x="24" y="24" width="152" height="152" rx="20" fill="#111827" stroke="#1f2937" stroke-width="2"/>
+  <path d="M60 128L92 96L116 120L140 96L164 120" stroke="#34d399" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="86" cy="76" r="14" fill="#22c55e" opacity="0.6"/>
+  <text x="100" y="168" text-anchor="middle" fill="#94a3b8" font-size="12" font-family="Arial, sans-serif">Sem foto</text>
+</svg>
