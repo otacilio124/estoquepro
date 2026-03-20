@@ -1,9 +1,11 @@
 import { redirect } from "next/navigation";
 import { getServerSession } from "next-auth";
+import Link from "next/link";
 
 import { authOptions } from "@/lib/auth";
 import { UserRepository } from "@/repositories/UserRepository";
 import { OrderRepository } from "@/repositories/OrderRepository";
+import { OrderTracking } from "@/components/store/OrderTracking";
 
 export const dynamic = "force-dynamic";
 
@@ -81,23 +83,39 @@ export default async function AccountPage({ searchParams }: AccountPageProps) {
             Nenhum pedido realizado ainda.
           </p>
         ) : (
-          <div className="mt-4 space-y-4">
+          <div className="mt-4 space-y-8">
             {orders.map((order) => (
-              <div key={order.id} className="rounded-xl border border-zinc-800/70 p-4">
+              <div key={order.id} className="rounded-xl border border-zinc-800/70 p-4 bg-zinc-950/40">
                 <div className="flex flex-wrap items-center justify-between text-sm text-zinc-300">
-                  <span>Pedido #{order.id}</span>
+                  <span className="font-medium text-emerald-400">Pedido #{order.id}</span>
                   <span>{new Date(order.createdAt).toLocaleString("pt-BR")}</span>
                 </div>
-                <div className="mt-2 text-sm text-emerald-300">
-                  Total: {formatCurrency(order.total)}
+                <div className="mt-2 text-sm text-zinc-200">
+                  Total da compra: <span className="font-semibold text-emerald-300">{formatCurrency(order.total)}</span>
                 </div>
-                <ul className="mt-3 space-y-1 text-xs text-zinc-400">
+                <ul className="mt-3 space-y-1 text-xs text-zinc-400 border-b border-zinc-800/60 pb-4">
                   {order.items.map((item) => (
-                    <li key={item.id}>
-                      {item.name} x{item.quantity}
+                    <li key={item.id} className="flex justify-between">
+                      <span>{item.name} <span className="text-zinc-500">x{item.quantity}</span></span>
+                      <span>{formatCurrency(item.price * item.quantity)}</span>
                     </li>
                   ))}
                 </ul>
+                
+                <div className="mt-4 pt-2">
+                  <div className="flex justify-between items-end mb-2">
+                    <h3 className="text-sm font-medium text-zinc-300">Acompanhe seu pedido</h3>
+                    {order.status === "PENDING" && (
+                      <Link
+                        href={`/checkout/payment/${order.id}`}
+                        className="inline-flex items-center justify-center rounded-lg bg-emerald-500 px-4 py-1.5 text-xs font-semibold text-zinc-950 transition hover:bg-emerald-400"
+                      >
+                        Realizar Pagamento
+                      </Link>
+                    )}
+                  </div>
+                  <OrderTracking createdAtStr={order.createdAt} status={order.status} />
+                </div>
               </div>
             ))}
           </div>

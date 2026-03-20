@@ -94,8 +94,10 @@ export function CheckoutForm({ user }: CheckoutFormProps) {
         throw new Error(data.error ?? "Erro ao finalizar compra");
       }
 
+      const data = await response.json();
+
       clear();
-      router.push("/account?success=1");
+      router.push(`/checkout/payment/${data.orderId}`);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Erro inesperado");
     } finally {

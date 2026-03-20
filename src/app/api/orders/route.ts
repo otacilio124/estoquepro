@@ -62,7 +62,7 @@ export async function POST(request: Request) {
         .run({
           user_id: Number(session.user.id),
           total: 0,
-          status: "PAID",
+          status: "PENDING",
           recipient_name: payload.recipientName,
           cpf,
           cep,

@@ -1,78 +1,87 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Estoque Pro
 
-## Getting Started
+O **Estoque Pro** é uma plataforma inovadora e simuladora de E-commerce e Gestão de Estoque construída com o ecosistema React e Next.js. O sistema não apenas lista produtos e permite o fluxo de compra, mas simula processos modernos de checkout, geração e pagamento por QR Code em tempo real e um sistema independente de rastreamento de entregas.
 
-First, run the development server:
+## 🎓 Propósito Educacional
 
+Este projeto foi construído e idealizado exclusivamente para fins acadêmicos, visando compor as atividades e avaliações das aulas da matéria de **Qualidade de Software**, sob supervisão do **Professor Douglas** na **Faculdade de Tecnologia SENAI Mato Grosso (FATEC SENAI MT)**.
+
+Todo o desenvolvimento prezou por boas práticas de codificação, arquitetura baseada em Serviços e Repositórios, e testes unitários garantindo a confiabilidade exigida na disciplina de Qualidade de Software.
+
+---
+
+## ⚙️ Principais Funcionalidades
+
+- **E-Commerce Completo:** Home page dinâmica em formato carrossel, catálogo de produtos com busca e página de checkout completa via carrinho de compras.
+- **Painel Administrativo:** CRUD completo para produtos, categorias, gestão ativa de carrossel de marketing e dashboards de vendas.
+- **Simulador de Pagamento por QR Code:** Geração dinâmica do QR Code com leitura do IP da máquina para possibilitar que um smartphone real na rede escaneie e acesse a rota simuladora de banco, confirmando a compra bidirecionalmente (Polling em Client-side).
+- **Rápido Retry de Pagamentos:** Pedidos pendentes na "Minha Conta" oferecem ao cliente a opção ágil de gerar os dados de QR Code novamente.
+- **Order Tracking Dinâmico:** Uma linha do tempo animada baseada unicamente na hora de criação do pedido processa o status logístico ("Na Loja", "Coletado", "Em Trânsito", "Em Rota", "Entregue") progressivamente.
+- **Banco de Dados SQLite:** Usa o *Better-SQLite3* para transações locais sem necessidade de clusters em nuvem, rodando completamente local e armazenando imagens e pedidos com consistência.
+
+---
+
+## 🚀 Como Baixar, Instalar e Executar
+
+Siga os passos abaixo para ter a aplicação rodando no seu ambiente localmente:
+
+### Pré-requisitos
+- Node.js (versão 18.x ou superior)
+- Git instalado na máquina
+
+### 1. Clonar o repositório
+
+Abra seu terminal/prompt de comando e execute:
+```bash
+git clone <URL_DO_SEU_REPOSITORIO>
+cd estoque-pro
+```
+*(Certifique-se de substituir `<URL_DO_SEU_REPOSITORIO>` pela URL real do repositório remoto Git do projeto).*
+
+### 2. Instalar dependências
+
+Ainda dentro do diretório recém baixado, rode o instalador de pacotes do Node:
+```bash
+npm install
+```
+
+### 3. Iniciar o servidor de Desenvolvimento
+
+Após as dependências instalarem, execute o projeto:
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+O servidor detectará o IP da sua máquina e vai expor o painel em **`http://localhost:3000`**. 
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+> **Acesso Admin:**
+> Para acessar o `/admin` use:
+> Email: `admin@estoquepro.local`
+> Senha: `Admin123!`
 
 ---
 
-## API v2 – Padronização com Versão de Endpoint
+## 🧪 Testes Automáticos
 
-### `GET /api/v2/pedidos`
-
-Lista pedidos com filtro opcional por status.
-
-#### Query Params
-
-| Parâmetro | Tipo   | Obrigatório | Descrição                              |
-|-----------|--------|-------------|----------------------------------------|
-| `status`  | string | Não         | Filtra por status: `PAID`, `PENDING`, `CANCELLED`, `FINALIZADO` |
-
-#### Retorno por pedido
-
-| Campo             | Tipo   | Descrição                      |
-|-------------------|--------|--------------------------------|
-| `id`              | number | ID do pedido                   |
-| `cliente`         | string | Nome do destinatário           |
-| `itens`           | array  | Produtos do pedido             |
-| `subtotal`        | number | Soma dos itens sem desconto    |
-| `desconto`        | number | Diferença entre subtotal e total |
-| `totalFinal`      | number | Valor final pago               |
-| `status`          | string | Status do pedido               |
-| `enderecoEntrega` | object | Endereço de entrega (CamelCase)|
-| `criadoEm`        | string | Data/hora de criação           |
+Visando atestar a resiliência dos endpoints (requisito de Qualidade de Software), o projeto está equipado com o Vitest.
+Rode no terminal:
+```bash
+npm run test:run
+```
 
 ---
 
-#### Exemplo de Sucesso (v2)
+## 📡 Rotas de API e Exemplos para Postman
 
-**Request:**
-```
-GET /api/v2/pedidos?status=FINALIZADO
-```
+O sistema contém diversas rotas para manipulação de compras via Client Component, as principais e mais recentes para simulação via Postman ou Insomnia encontram-se abaixo:
 
-**Response `200 OK`:**
+### 1. `GET /api/v2/pedidos` (Listagem com Padrão CamelCase)
+Retorna os pedidos padronizados e estruturados obedecendo o mapeamento de boas práticas. Você pode enviar a *query string* `?status=VALOR` para filtrar.
+
+**Exemplo Request:**
+`GET http://localhost:3000/api/v2/pedidos?status=PENDING`
+
+**Response (`200 OK`):**
 ```json
 {
   "success": true,
@@ -82,45 +91,50 @@ GET /api/v2/pedidos?status=FINALIZADO
       "id": 1,
       "cliente": "João Silva",
       "itens": [
-        { "id": 1, "nome": "Produto X", "precoUnitario": 48.00, "quantidade": 2, "totalItem": 96.00 }
+        { "id": 1, "nome": "MacBook Pro M2", "precoUnitario": 12499.9, "quantidade": 1, "totalItem": 12499.9 }
       ],
-      "subtotal": 96.00,
+      "subtotal": 12499.9,
       "desconto": 0.00,
-      "totalFinal": 96.00,
-      "status": "FINALIZADO",
-      "enderecoEntrega": { "rua": "Rua A", "numero": "10", "bairro": "Centro", "cidade": "Rondonópolis", "estado": "MT", "cep": "78700000" },
-      "criadoEm": "2025-01-01T10:00:00"
+      "totalFinal": 12499.9,
+      "status": "PENDING",
+      "enderecoEntrega": { 
+        "rua": "Praça da Sé", "numero": "100", "bairro": "Sé", "cidade": "São Paulo", "estado": "SP", "cep": "01001-000" 
+      },
+      "criadoEm": "2026-03-20T10:00:00.000Z"
     }
   ]
 }
 ```
 
----
+### 2. `POST /api/orders` (Criação do Pedido)
+Endpoint protegido para a finalização do carrinho de compras. O payload requer objetos contendo items do carrinho e endereço. (Requer Sessão do Next-Auth). Retorna o Id e transaciona o status para PENDING.
 
-#### Exemplo de Erro – Status Inválido
+### 3. `GET /api/orders/[id]/status` (Polling de QR Code)
+Usado publicamente pelo sistema para conferir a cada X segundos se o Pedido foi efetivamente pago. Ideal para ser rodado no Postman enquanto simula fluxos reais de tempo de pagamento.
 
-**Request:**
-```
-GET /api/v2/pedidos?status=INVALIDO
-```
+**Exemplo Request:**
+`GET http://localhost:3000/api/orders/3/status`
 
-**Response `400 Bad Request`:**
+**Response (`200 OK`):**
 ```json
 {
-  "success": false,
-  "message": "Status inválido",
-  "error": { "code": "VALIDATION_ERROR" }
+  "status": "PENDING"
+}
+```
+
+### 4. `GET /api/internal/ip` (Busca de Rede IPv4)
+Pesquisa em todo o SO onde o Node.js está ancorado em busca do IP primário público do Router Local.
+**Response (`200 OK`):**
+```json
+{
+  "ip": "[IP_ADDRESS]"
 }
 ```
 
 ---
 
-### Rodar os Testes Automáticos
+## 👨‍💻 Autoria
 
-```bash
-npm run test:run
-```
-
-Dois testes são executados:
-1. **Sucesso** – listagem com retorno CamelCase correto
-2. **Erro/Filtro** – `VALIDATION_ERROR` para status inválido
+Desenvolvido por **Otacílio de Oliveira Neto**  
+*Aluno de Análise e Desenvolvimento de Sistemas*  
+**FATEC SENAI MT** - Disciplina de Qualidade de Software

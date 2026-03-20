@@ -168,8 +168,8 @@ if (categoryCount.count === 0) {
     { name: "Audio" },
   ];
 
-  const insertManyCategories = db.transaction((rows) => {
-    rows.forEach((row) => insertCategory.run(row));
+  const insertManyCategories = db.transaction((rows: any[]) => {
+    rows.forEach((row: any) => insertCategory.run(row));
   });
 
   insertManyCategories(seedCategories);
@@ -249,11 +249,54 @@ if (count.count === 0) {
     },
   ];
 
-  const insertMany = db.transaction((rows) => {
-    rows.forEach((row) => insert.run(row));
+  const insertMany = db.transaction((rows: any[]) => {
+    rows.forEach((row: any) => insert.run(row));
   });
 
   insertMany(seed);
+}
+
+db.exec(`
+  CREATE TABLE IF NOT EXISTS carousel_slides (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    title TEXT NOT NULL,
+    subtitle TEXT,
+    image_url TEXT NOT NULL,
+    link_url TEXT,
+    link_text TEXT,
+    is_active INTEGER NOT NULL DEFAULT 1,
+    order_index INTEGER NOT NULL DEFAULT 0,
+    created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+  );
+`);
+
+const carouselCount = db.prepare("SELECT COUNT(*) as count FROM carousel_slides").get() as {
+  count: number;
+};
+
+if (carouselCount.count === 0) {
+  const insertCarousel = db.prepare(
+    `INSERT INTO carousel_slides (title, subtitle, image_url, link_url, link_text, order_index)
+     VALUES (@title, @subtitle, @image_url, @link_url, @link_text, @order_index)`
+  );
+
+  const seedCarousel = [
+    {
+      title: "Sua loja completa para tecnologia, escritorio e bem-estar.",
+      subtitle: "Produtos selecionados, estoque atualizado e checkout rapido. Compre agora e acompanhe seus pedidos em tempo real.",
+      image_url: "/placeholder.svg",
+      link_url: "/products",
+      link_text: "Ver catalogo",
+      order_index: 0,
+    }
+  ];
+
+  const insertManyCarousel = db.transaction((rows: any[]) => {
+    rows.forEach((row: any) => insertCarousel.run(row));
+  });
+
+  insertManyCarousel(seedCarousel);
 }
 
 export default db;
