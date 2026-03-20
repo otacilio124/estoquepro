@@ -53,10 +53,18 @@ npm run dev
 
 O servidor detectará o IP da sua máquina e vai expor o painel em **`http://localhost:3000`**. 
 
-> **Acesso Admin:**
-> Para acessar o `/admin` use:
-> Email: `admin@estoquepro.local`
-> Senha: `Admin123!`
+---
+
+## 🔐 Credenciais de Acesso (Teste)
+
+Para facilitar a correção e os testes pelos professores e alunos, o banco de dados já é inicializado com um usuário Administrador padrão. 
+
+Para testar as funcionalidades do **Painel Admin** (Dashboard, Cadastro de Produtos, Gerenciamento de Carrossel, etc), acesse a rota `/auth/signin` ou clique em "Entrar" e utilize:
+
+- **Email:** `admin@estoquepro.local`
+- **Senha:** `Admin123!`
+
+*(Ou, se preferir, crie uma conta nova de cliente na tela de Cadastro para testar o fluxo completo de checkout como usuário normal).*
 
 ---
 
