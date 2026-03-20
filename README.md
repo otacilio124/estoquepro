@@ -33,10 +33,9 @@ Siga os passos abaixo para ter a aplicação rodando no seu ambiente localmente:
 
 Abra seu terminal/prompt de comando e execute:
 ```bash
-git clone <URL_DO_SEU_REPOSITORIO>
+git clone https://github.com/otacilio124/estoquepro.git
 cd estoque-pro
 ```
-*(Certifique-se de substituir `<URL_DO_SEU_REPOSITORIO>` pela URL real do repositório remoto Git do projeto).*
 
 ### 2. Instalar dependências
 
